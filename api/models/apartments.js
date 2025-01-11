@@ -18,7 +18,7 @@ const apartmentSchema = mongoose.Schema({
       child: { type: Number, required: true }
     },
     ownerId: { type: String, required: true },
-    reviews: { type: Array}
+    reviews: { type: [String], default : [] }
   });
   
 
