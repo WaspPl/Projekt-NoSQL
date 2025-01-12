@@ -4,21 +4,21 @@ mongoose = require("mongoose")
 
 //apartment schema
 const apartmentSchema = mongoose.Schema({
-    name: { type: String, required: true },
+    name: { type: String },
     address: {
-      country: { type: String, required: true },
-      city: { type: String, required: true },
-      street: { type: String, required: true },
-      lon: { type: Number, required: true },
-      lat: { type: Number, required: true }
+      country: { type: String },
+      city: { type: String },
+      street: { type: String },
+      lon: { type: Number },
+      lat: { type: Number }
     },
-    desc: { type: String, required: true },
+    desc: { type: String },
     price: {
-      adult: { type: Number, required: true },
-      child: { type: Number, required: true }
+      adult: { type: Number },
+      child: { type: Number }
     },
-    ownerId: { type: String, required: true },
-    reviews: { type: [String], default : [] }
+    ownerId: { type: String },
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }]
   });
   
 
