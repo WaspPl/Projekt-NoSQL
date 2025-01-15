@@ -1,28 +1,56 @@
 const express = require("express")
 const router = express.Router()
 const Apartment = require("../models/apartments")
+const Owner = require("../models/owners")
 const mongoose = require("mongoose")
 
 
-// router.post("/",(req, res, next)=>{
-//     //tworze objekt abzodanowych
-//     const apartment = new Apartment({
-//         _id: new mongoose.Types.ObjectId(),
-//         name: req.body.name,
-//         price: req.body.price
-//     })
-//     //zapis do db
-//     product.save()
-//     .then(result=>{
-//         res.status(201).json({
-//             wiadomosc:"dodanie nowego produktu",
-//             dane: result
-//         })
-//     })
-//     .catch(err=>{
-//         res.status(500).json({wiadomosc: err})
-//     })
-// })
+router.post("/", async (req, res, next) => {
+    try {
+        // Create an apartment object from the request body
+        const apartment = new Apartment({
+            name: req.body.name,
+            address: {
+                country: req.body.address.country,
+                city: req.body.address.city,
+                street: req.body.address.street,
+                lon: req.body.address.lon,
+                lat: req.body.address.lat
+            },
+            desc: req.body.desc,
+            price: {
+                adult: req.body.price.adult,
+                child: req.body.price.child
+            },
+            ownerId: req.body.ownerId,
+            reviews: req.body.reviews
+        });
+
+        const ownerfound = await Owner.findOne({ _id: apartment.ownerId });
+
+        if (!ownerfound) {
+            return res.status(404).json({
+                wiadomosc: "Brak właściciela o takim ID"
+            });
+        }
+
+        const result = await apartment.save()
+        const updateResult = await Owner.updateOne(
+            { _id: result.ownerId },
+            { $push: { apartmentIds: result._id } }
+        );
+            res.status(201).json({
+            wiadomosc: "Dodanie nowego apartamentu",
+            dane: result
+        })
+
+
+    } catch (err) {
+        // Handle errors and send a 500 response
+        res.status(500).json({ wiadomosc: err.message });
+    }
+});
+
 router.get("/", (req, res, next) => {
     Apartment.aggregate([
         {
@@ -31,6 +59,14 @@ router.get("/", (req, res, next) => {
                 "localField":"reviews",
                 "foreignField":"_id",
                 "as":"reviewData"
+            }
+        },
+        {
+            $lookup:{
+                "from":"owners",
+                "localField":"ownerId",
+                "foreignField":"_id",
+                "as":"ownerInfo"
             }
         }
     ])

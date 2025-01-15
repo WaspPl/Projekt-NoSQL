@@ -4,15 +4,16 @@ mongoose = require("mongoose")
 
 //owner schema
 const ownerSchema = {
-  name: { type: String, required: true },
+  name: { type: String},
   address: {
-    country: { type: String, required: true },
-    city: { type: String, required: true },
-    street: { type: String, required: true }
+    country: { type: String},
+    city: { type: String},
+    street: { type: String}
   },
-  email: { type: String, required: true },
-  apartments: { type: [String], default: [] } //from apartmens col
+  email: { type: String},
+  apartmentIds: { type: [mongoose.Schema.Types.ObjectId], default: [] } //from apartmens col
 };
-  
+
+
 
 module.exports = mongoose.model("Owner", ownerSchema)

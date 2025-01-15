@@ -17,7 +17,7 @@ const apartmentSchema = mongoose.Schema({
       adult: { type: Number },
       child: { type: Number }
     },
-    ownerId: { type: String },
+    ownerId: { type: mongoose.Schema.Types.ObjectId, ref: "Owner", required: "True"},
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }]
   });
   

@@ -10,6 +10,7 @@ const app = express()
 //importuje routy
 const apartmentRoutes = require("./api/routes/apartments")
 const reviewRoutes = require("./api/routes/reviews")
+const ownerRoutes = require("./api/routes/owners")
 
 //polaczenie  z baza danych
 const mongoose = require("mongoose")
@@ -26,6 +27,7 @@ app.use(bodyParser.json())
 //stosuje routy
 app.use("/apartments", apartmentRoutes)
 app.use("/reviews", reviewRoutes)
+app.use("/owners", ownerRoutes)
 
 app.use((req, res, next) => {
   res.status(404).json({wiadomosc: "nie odnaleziono"})  
