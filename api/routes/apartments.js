@@ -41,14 +41,14 @@ router.post("/", async (req, res, next) => {
             { _id: result.ownerId },
             { $push: { apartmentIds: result._id } }
         );
-            res.status(201).json({
+        return res.status(201).json({
             wiadomosc: "Apartment added successfully",
             dane: result
         })
 
         //handle errors
     } catch (err) {
-        res.status(500).json({ wiadomosc: err.message });
+        return res.status(500).json({ wiadomosc: err.message });
     }
 });
 
@@ -58,8 +58,8 @@ router.get("/", (req, res, next) => {
         {
             $lookup:{
                 "from":"reviews",
-                "localField":"reviews",
-                "foreignField":"_id",
+                "localField":"_id",
+                "foreignField":"apartmentId",
                 "as":"reviews"
             }
         },
@@ -74,13 +74,13 @@ router.get("/", (req, res, next) => {
     ])
     //display apartments
       .then(apartments => {
-        res.status(200).json({
+        return res.status(200).json({
           message: "Lista apartamentów",
           lista: apartments
         });
       })
       .catch(err => {
-        res.status(500).json({ message: err.message });
+        return res.status(500).json({ message: err.message });
       });
   });
   
@@ -96,8 +96,8 @@ router.get("/:apartmentId",(req, res, next)=>{
         {
             $lookup:{
                 "from":"reviews",
-                "localField":"reviews",
-                "foreignField":"_id",
+                "localField":"_id",
+                "foreignField":"apartmentId",
                 "as":"reviews"
             }
         },
@@ -111,10 +111,10 @@ router.get("/:apartmentId",(req, res, next)=>{
         }
     ])
     .then(apartment=>{
-        res.status(200).json({wiadomosc:"Details on the apartment "+ id, data: apartment})
+        return res.status(200).json({wiadomosc:"Details on the apartment "+ id, data: apartment})
     })
     .catch(err=>{
-        res.status(500).json({wiadomosc: err})
+        return res.status(500).json({wiadomosc: err})
     })
     })
 router.put("/:apartmentId", (req, res) => {
@@ -150,14 +150,14 @@ router.put("/:apartmentId", (req, res) => {
         })
         //return the confirmation message
         .then((updatedApartment) => {
-            res.status(200).json({
+            return res.status(200).json({
                 message: `Apartment ${id} updated`,
-                apartment: updatedApartment,
+                data: updatedApartment,
             });
         })
         .catch((error) => {
             console.error(error);
-            res.status(500).json({
+            return res.status(500).json({
                 message: "There was an error updating the apartment",
                 error: error.message,
             });
@@ -170,7 +170,7 @@ router.delete("/:apartmentId", (req, res, next) => {
     Apartment.findOne({_id:id})
     .then((apartment)=>{
         if (!apartment){
-            res.status(500).json({
+            return res.status(500).json({
                 message: "Apartment with that id doesnt exist",
             });
         }
@@ -182,18 +182,18 @@ router.delete("/:apartmentId", (req, res, next) => {
         })
         .then(() => {
             // respond
-            res.status(200).json({ wiadomosc: `Successfully deleted apartment ${id} and its reviews` });
+            return res.status(200).json({ message: `Successfully deleted apartment ${id} and its reviews` });
         })
         .catch((err) => {
             // Catch any errors in the chain
-            res.status(500).json({
+            return res.status(500).json({
                 message: "There was an error deleting this apartment",
                 error: err.message
             });
         });
     })
     .catch((err)=>{
-        res.status(500).json({
+        return res.status(500).json({
             message: "There was an error deleting this apartment",
             error: err.message
         });

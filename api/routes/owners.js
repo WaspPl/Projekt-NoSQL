@@ -1,6 +1,8 @@
 const express = require("express")
 const router = express.Router()
 const Owner = require("../models/owners")
+const Apartment = require("../models/apartments")
+const Review = require("../models/reviews")
 const mongoose = require("mongoose")
 
 router.post("/",(req, res, next)=>{
@@ -17,13 +19,13 @@ router.post("/",(req, res, next)=>{
     //zapis do db
     owner.save()
     .then(result=>{
-        res.status(201).json({
+        return res.status(201).json({
              message:"New owner account successfully created",
             data: result
         })
     })
     .catch(err=>{
-        res.status(500).json({ message: err})
+        return res.status(500).json({ message: err})
     })
 })
 
@@ -39,13 +41,13 @@ router.get("/",(req, res, next)=>{
             }
      ])
     .then(owner=>{
-        res.status(200).json({
+        return res.status(200).json({
              message: "List of all owners",
             data: owner
         })
     })
     .catch(err=>{
-        res.status(500).json({ message: err})
+        return res.status(500).json({ message: err})
     })
 })
 
@@ -66,62 +68,92 @@ router.get("/:ownerId",(req, res, next)=>{
         }
  ])
     .then(apartment=>{
-        res.status(200).json({ message:`Information about the owner with id ${id}}`,data:apartment})
+        return res.status(200).json({ message:`Information about the owner with id ${id}}`,data:apartment})
     })
     .catch(err=>{
-        res.status(500).json({ message: err})
+        return res.status(500).json({ message: err})
     })
     })
+    
 router.put("/:ownerId", (req, res) => {
-    const id = req.params.ownerId;
+    const id = req.params.ownerId
 
     Owner.findById(id)
         .then((owner) => {
             //if an owner with that id doesnt exist throw an error
             if (!owner) {
-                return res.status(404).json({ message: `Owner ${id} not found` });
+                return res.status(404).json({ message: `Owner ${id} not found` })
             }
 
             //update only values included in the body
-            if (req.body.name != null && req.body.name !== undefined) {
-                apartment.name = req.body.name;
+            if (req.body.name) {
+                owner.name = req.body.name
             }
 
             if (req.body.address) {
-                if (req.body.address.country != null) apartment.address.country = req.body.address.country;
-                if (req.body.address.city != null) apartment.address.city = req.body.address.city;
-                if (req.body.address.street != null) apartment.address.street = req.body.address.street;
-                if (req.body.address.lon != null) apartment.address.lon = req.body.address.lon;
-                if (req.body.address.lat != null) apartment.address.lat = req.body.address.lat;
-            }
+                if (req.body.address.country) owner.address.country = req.body.address.country
+                if (req.body.address.city) owner.address.city = req.body.address.city
+                if (req.body.address.street) owner.address.street = req.body.address.street
+                }
 
-            if (req.body.desc != null) apartment.desc = req.body.desc;
-            if (req.body.price) {
-                if (req.body.price.adult != null) apartment.price.adult = req.body.price.adult;
-                if (req.body.price.child != null) apartment.price.child = req.body.price.child;
-            }
-
-            if (req.body.ownerId != null) {
-                apartment.ownerId = req.body.ownerId;
-            }
-            return apartment.save();
+            if (req.body.email) owner.email = req.body.email
+            
+            return owner.save()
         })
-        .then((updatedApartment) => {
-            res.status(200).json({
-                message: `Zaktualizowano apartament o id ${id}`,
-                apartment: updatedApartment,
-            });
+        .then((updatedOwner) => {
+            return res.status(200).json({
+                message: `Owner ${id} successfully updated`,
+                data: updatedOwner,
+            })
         })
         .catch((error) => {
-            console.error(error);
-            res.status(500).json({
-                message: "Wystąpił błąd podczas aktualizacji apartamentu",
+            console.error(error)
+            return res.status(500).json({
+                message: "There was an error updating this owner account",
                 error: error.message,
-            });
-        });
-});
-router.delete("/:productId",(req, res, next)=>{
-    const id = req.params.productId
-    res.status(200).json({ message:"Usuniecie produktu o numerze "+ id})
+            })
+        })
 })
+
+router.delete("/:ownerId", (req, res) => {
+    const id = req.params.ownerId
+
+    Owner.findOne({ _id: id })
+        .then((owner) => {
+            if (!owner) {
+                return res.status(500).json({
+                    message: `Owner ${id} doesnt exist`,
+                })
+            }
+            // delete the owner
+            return Owner.deleteOne({ _id: id })
+        })
+        .then(() => {
+            return Apartment.find({ ownerId: id })
+        })
+        .then((apartments) => {
+            const apartmentIds = apartments.map((apartments) => apartments._id)
+            // delete connected reviews
+            return Review.deleteMany({ apartmentId: { $in: apartmentIds } })
+        })
+        .then(() => {
+            // delete all connected apartments
+            // has to be done in this order, otherwise there'd be no apartment id to reference
+            return Apartment.deleteMany({ ownerId: id })
+        })
+        .then(() => {
+            // respond success
+            return res.status(200).json({
+                message: `Successfully deleted owner account ${id} and its apartments along with their reviews`,
+            })
+        })
+        .catch((err) => {
+            // respont if errors
+            return res.status(500).json({
+                message: "There was an error deleting this owner accound",
+                error: err.message
+            })
+        })
+})
+
 module.exports = router
