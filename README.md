@@ -19,17 +19,20 @@ These instructions will get you a copy of the project up and running on your loc
 
 # Installing
 
-```
-1. Clone the respository
-```
-```
+1. Clone the respository   
 2. In the main folder create an  ".env" file
-```
 The file should contain your credentials needed to access a mongodb cluster
+Structure it like this (replace "Example" with correct values):
+```
+DB_USER="Example"
+DB_PASSWORD="Example"
+DB_NAME="Example"
 
-
-# Overview
-- Creating campaigns and seeing predictions for how successful they will be.
+```
+3. Run the server with Node.js
+```
+node server.js
+```
 
 # Back-end 
 
@@ -38,86 +41,120 @@ API's | RDBMS and Data Persistence | Authentication | Form Testing
 # API Endpoints
 Use Base URL: https://kickstarter-success-bw.herokuapp.com/
 
-Register & Login 
+Owners
 | Method | Route                  | Description                                      |
 |--------|------------------------|--------------------------------------------------|
-| POST   | /api/auth/register     | registers new users                              |
-| POST   | /api/auth/login        | logins into user account                         |
-| GET    | /api/auth/logout       | logs out of user account                         |
+| POST   | /owners                | registers new users as owners                    |
+| GET    | /owners                | lists all owners and their apartments            |
+| GET    | /owners:id             | list all info about the owner with :id           |
+| PUT    | /owners:id             | updates info about the owner specified by :id    |
+| DELETE | /owners:id             | deletes the owner, their apartments and reviews  |
 
-Campaigns
+
+Apartments
 | Method | Route                  | Description                                      |
 |--------|------------------------|--------------------------------------------------|
-| GET    | /api/campaigns         | returns array of campaigns in database           |
-| GET    | /api/campaigns/:id     | returns campaigns specified by :id  --NOT READY  |
-| PUT    | /api/campaigns/:id     | updates campaign specified by :id                |
-| POST   | /api/campaigns         | creates & returns new campaign                   |
-| DELETE | /api/campaigns/:id     | deletes campaign specified by :id                |
+| POST   | /apartments            | creates a new apartment                          |
+| GET    | /apartments            | lists all apartments, their owners and reviews   |
+| GET    | /apartments:id         | list all info about the apartment with :id       |
+| PUT    | /apartments:id         | updates info about the apartment specified by :id|
+| DELETE | /apartments:id         | deletes the apartment and its reviews            |
 
 
-Users
+Apartments
 | Method | Route                  | Description                                      |
 |--------|------------------------|--------------------------------------------------|
-| GET    | /api/users             | returns array of users                           |
-| GET    | /api/users/:id         | returns user specified by :id                    |
-| PUT    | /api/users/:id         | updates user specified by :id                    |
-| DELETE | /api/user/:id          | deletes user specified by :id                    |
-
-Metrics
-| Method | Route                      | Description                                  |
-|--------|----------------------------|----------------------------------------------|
-| POST   | /api/campaigns/:id/metrics | returns array of photos                      |
-<!-- | GET    | /api/photos/:id       | returns photos specified by :id                   |
-| POST   | /api/photos           | creates & returns new story                       |
-| PUT    | /api/photos/:id       | updates photos specified by :id                   |
-| DELETE | /api/photos/:id       | deletes photos specified by :id                   | -->
+| POST   | /reviews               | creates a new review                             |
+| GET    | /reviews               | lists all reviews                                |
+| GET    | /reviews:id            | list all info about the review with :id          |
+| PUT    | /reviews:id            | updates info about the review specified by :id   |
+| DELETE | /reviews:id            | deletes the revew specified with :id             |
 
 
-## Register Endpoint
+## Post endpoints
+# Owners
 ```js
-POST /api/auth/register
+POST /owners
 ```
 Expected Body 
 ```js
-    {
-    "username": "new_user", // string, unique, required
-    "password": "password", // string, required
-    "age": 18, // integer, required
-    "email": "JaneDoe@gmail.com" // string, unique, required
-    }
+ {
+  name: "name", //string ,required
+  address: {
+    country: "Poland", //string
+    city: "Wroclaw",//string
+    street: "testing"
+  },
+  email: "example@email.com"//string, required
+}
 ```
 
 Expected Response
 ```js
     {
-        "id": 4,
-        "username": "new_user",
-        "password": "$2a$08$Sp/WntMm7eAZnDn3tp40tOAp77T8CTMUel8bqZGD3CoJcuSrH.NZ6",
-        "email": "JaneDoe@gmail.com",
-        "age": 18
+    "message": "New owner account successfully created",
+    "data": {
+        "name": "name",
+        "address": {
+            "country": "Poland",
+            "city": "Wroclaw",
+            "street": "testing"
+        },
+        "email": "example@email.com",
+        "_id": "67895c64f5d539e90e754e99",
+        "__v": 0
     }
 ```
 
-## Login Endpoint
+## Apartments Endpoints
 ```js
-POST /api/auth/login
+POST /apartments
 ```
 Expected Body
 ```js
 {
-    "username": "test_user",
-    "password": "password"
+    name: "name of an apartment", //string, required
+    address: {
+      country: "Poland", //string
+      city: "Wroclaw", //string
+      street: "testing", //string
+      lon: 12.345, // Number
+      lat: 3.1415 // Number
+    },
+    desc: "A description for your apartment", //string
+    price: {
+      adult: 50, //Number, required
+      child: 30 //Number, required
+    },
+    ownerId: "67895c64f5d539e90e754e99" //ObjectId, required, owner with that Id must exist
 }
 ```
 Expected Response
 ```js
 {
-    "message": "Welcome test_user",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoxMiwidXNlcm5hbWUiOiJuZXdfdXNlcjEyMTIxMiIsImlhdCI6MTU5ODQyMDg0NywiZXhwIjoxNTk4NDI4MDQ3fQ.YyR_rrRxYaDVTt3FPM155hPwbUAEFhyaDSOWqVOD8kM"
+    "wiadomosc": "Apartment added successfully",
+    "dane": {
+        "name": "name of an apartment",
+        "address": {
+            "country": "Poland",
+            "city": "Wroclaw",
+            "street": "testing",
+            "lon": 12.345,
+            "lat": 3.1415
+        },
+        "desc": "A description for your apartment",
+        "price": {
+            "adult": 50,
+            "child": 30
+        },
+        "ownerId": "67895c64f5d539e90e754e99",
+        "_id": "678968abf5d539e90e754e9b",
+        "__v": 0
+    }
 }
 ```
 
-## Logout Endpoint
+## Review Endpoints
 ```js
 GET /api/auth/logout
 ```
