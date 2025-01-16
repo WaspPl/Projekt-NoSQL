@@ -122,38 +122,47 @@ router.put("/:apartmentId", (req, res) => {
 
     Apartment.findById(id)
         .then((apartment) => {
-            //if an apartment with that id doesnt exist throw an error
+            // if an apartment with that id doesn't exist throw an error
             if (!apartment) {
                 return res.status(404).json({ message: "Apartment not found" });
             }
 
-            //update only values included in the body and save the apartment
-            if (req.body.name   && req.body.name !== undefined) {
+            // update only values included in the body and save the apartment
+            if (req.body.name) {
                 apartment.name = req.body.name;
             }
             if (req.body.address) {
-                if (req.body.address.country  ) apartment.address.country = req.body.address.country;
-                if (req.body.address.city  ) apartment.address.city = req.body.address.city;
-                if (req.body.address.street  ) apartment.address.street = req.body.address.street;
-                if (req.body.address.lon  ) apartment.address.lon = req.body.address.lon;
-                if (req.body.address.lat  ) apartment.address.lat = req.body.address.lat;
+                if (req.body.address.country) apartment.address.country = req.body.address.country;
+                if (req.body.address.city) apartment.address.city = req.body.address.city;
+                if (req.body.address.street) apartment.address.street = req.body.address.street;
+                if (req.body.address.lon) apartment.address.lon = req.body.address.lon;
+                if (req.body.address.lat) apartment.address.lat = req.body.address.lat;
             }
-            if (req.body.desc  ) apartment.desc = req.body.desc;
+            if (req.body.desc) apartment.desc = req.body.desc;
             if (req.body.price) {
-                if (req.body.price.adult  ) apartment.price.adult = req.body.price.adult;
-                if (req.body.price.child  ) apartment.price.child = req.body.price.child;
+                if (req.body.price.adult) apartment.price.adult = req.body.price.adult;
+                if (req.body.price.child) apartment.price.child = req.body.price.child;
             }
-            if (req.body.ownerId  ) {
-                apartment.ownerId = req.body.ownerId;
-            }
-            return apartment.save();
-        })
-        //return the confirmation message
-        .then((updatedApartment) => {
-            return res.status(200).json({
-                message: `Apartment ${id} updated`,
-                data: updatedApartment,
+            if (req.body.ownerId) {
+                // check if owner with ownerId exists, if not throw an error
+                return Owner.findOne({ _id: req.body.ownerId }).then((ownerfound) => {
+                    if (!ownerfound) {
+                        return res.status(404).json({
+                            wiadomosc: "Can't find an owner with the specified id",
+                        });
+                    }
+                    apartment.ownerId = req.body.ownerId;
+
+                });
+            } 
+            return apartment.save().then((updatedApartment) => {
+                // return the confirmation message
+                return res.status(200).json({
+                    message: `Apartment ${id} updated`,
+                    data: updatedApartment,
+                });
             });
+            
         })
         .catch((error) => {
             console.error(error);

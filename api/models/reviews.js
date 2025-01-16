@@ -8,7 +8,8 @@ const reviewSchema = {
   reviewer: { type: String, default:"Anonymous reviewer" },
   rating: { type: Number, min: 1, max: 5 },
   comment: { type: String},
-  date: { type: Date, default: Date.now }
+  dateEdited: { type: Date, default: Date.now },
+  dateCreated: { type: Date, default: Date.now }
 };
   
 
