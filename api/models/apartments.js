@@ -4,7 +4,7 @@ mongoose = require("mongoose")
 
 //apartment schema
 const apartmentSchema = mongoose.Schema({
-    name: { type: String },
+    name: { type: String, required: "True" },
     address: {
       country: { type: String },
       city: { type: String },
@@ -14,11 +14,10 @@ const apartmentSchema = mongoose.Schema({
     },
     desc: { type: String },
     price: {
-      adult: { type: Number },
-      child: { type: Number }
+      adult: { type: Number,required: "True" },
+      child: { type: Number,required: "True" }
     },
     ownerId: { type: mongoose.Schema.Types.ObjectId, ref: "Owner", required: "True"},
-    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }]
   });
   
 
