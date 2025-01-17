@@ -5,7 +5,7 @@
 - **[POST Endpoint](#post-endpoints)**<br>
 - **[Owners Endpoint](#owners-endpoints)**<br>
 - **[Apartments Endpoint](#apartments-endpoints)**<br>
-- **[Eeviews Endpoints](#reviews-endpoints)**<br>
+- **[Reviews Endpoints](#reviews-endpoints)**<br>
 
 
 # backend-api
@@ -183,7 +183,7 @@ Expected Response
 
 ```
 
-## Onwers Endpoints
+## Owners Endpoints
 ### GET All owners
 ```js
 GET /owners
