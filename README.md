@@ -106,7 +106,7 @@ Expected Response
     }
 ```
 
-## Apartments Endpoints
+### Apartments
 ```js
 POST /apartments
 ```
@@ -154,65 +154,143 @@ Expected Response
 }
 ```
 
-## Review Endpoints
+### Reviews
 ```js
-GET /api/auth/logout
+POST /reviews
 ```
-Expected Response 
+Expected Body
 ```js
 {
-    "message": "successfully logged out"
+ "apartmentId": "678a6e3af5d539e90e754eab", //ObjectId, required
+  "reviewer": "alan", // string, if no name provided it'll be set to "Anonymous Reviewer",
+  "rating": 3, // Number, min 1, max 5
+  "comment": "hey, this is a comment i created" // string
 }
+  
 ```
-
-## Campaign Endpoints
-### GET All campaigns
-```js
-GET /api/campaigns
-
-Expected Response: returns array of campaigns in database 
-
-[
-    {
-        "id": 1,
-        "name": "Project Z",
-        "user_id": 1,
-        "imageURL": 'https://www.comtix.com/wp-content/uploads/2019/08/elections-campaign-1024x791.jpg'
-    }
-]
+Expected Response
 ```
-
-### POST campaign
-```js
-POST /api/campaigns
-
-Expected Body: 
-    {
-        "name": "test 123",
-        "user_id": 1,
-        "imageURL": 'https://www.comtix.com/wp-content/uploads/2019/08/elections-campaign-1024x791.jpg',
-        "description": "hellooooo world"
-    }
-
-Expected Response: returns object of created campaign in database 
 
 {
-    "newCampaign": {
-        "id": 1,
-        "name": "testing 123",
-        "user_id": 1,
-        "imageURL": "https://www.comtix.com/wp-content/uploads/2019/08/elections-campaign-1024x791.jpg",
-        "prediction": null
+    "message": "Successfully added the review",
+    "data": {
+        "apartmentId": "678a6e3af5d539e90e754eab",
+        "reviewer": "alan",
+        "rating": 3,
+        "comment": "hey, this is a comment i created",
+        "_id": "678a6f1af5d539e90e754eae",
+        "dateEdited": "2025-01-17T14:54:18.848Z",
+        "dateCreated": "2025-01-17T14:54:18.848Z",
+        "__v": 0
+    }
+}
+
+```
+
+## Onwers Endpoints
+### GET All owners
+```js
+GET /owners
+
+Expected Response: returns array of owners in database 
+
+{
+  "message": "List of all owners",
+  "data": [
+    {
+      "_id": "678945ed54569f21e1806c2a",
+      "name": "John Arbackle",
+      "address": {
+        "country": "Indiana",
+        "city": "Muncie",
+        "street": "Lasagne"
+      },
+      "email": "J.Arbackle@lasagne.com",
+      "__v": 0,
+      "apartmentsData": []
     },
-    "predictions": {
-        "prediction": 0
+    {
+      "_id": "67895c64f5d539e90e754e99",
+      "name": "name",
+      "address": {
+        "country": "Poland",
+        "city": "Wroclaw",
+        "street": "testing"
+      },
+      "email": "example@email.com",
+      "__v": 0,
+      "apartmentsData": [
+        {
+          "_id": "678968abf5d539e90e754e9b",
+          "name": "name of an apartment",
+          "address": {
+            "country": "Poland",
+            "city": "Wroclaw",
+            "street": "testing",
+            "lon": 12.345,
+            "lat": 3.1415
+          },
+          "desc": "A description for your apartment",
+          "price": {
+            "adult": 50,
+            "child": 30
+          },
+          "ownerId": "67895c64f5d539e90e754e99",
+          "__v": 0
+        }
+      ]
     }
+  ]
 }
 ```
 
-### PUT Campaign By ID
+### Get owner by id
 ```js
-PUT /api/campaigns/:id
+POST /owners/:id
+
+Expected Response: returns info about owner with specified id 
+
+{
+  "message": "Information about the owner with id 67895c64f5d539e90e754e99}",
+  "data": [
+    {
+      "_id": "67895c64f5d539e90e754e99",
+      "name": "name",
+      "address": {
+        "country": "Poland",
+        "city": "Wroclaw",
+        "street": "testing"
+      },
+      "email": "example@email.com",
+      "__v": 0,
+      "apartmentsData": [
+        {
+          "_id": "678968abf5d539e90e754e9b",
+          "name": "name of an apartment",
+          "address": {
+            "country": "Poland",
+            "city": "Wroclaw",
+            "street": "testing",
+            "lon": 12.345,
+            "lat": 3.1415
+          },
+          "desc": "A description for your apartment",
+          "price": {
+            "adult": 50,
+            "child": 30
+          },
+          "ownerId": "67895c64f5d539e90e754e99",
+          "__v": 0
+        }
+      ]
+    }
+  ]
+}
+```
+
+### PUT Owner By ID
+```js
+PUT /owners/:id
 
 Expected Body:
     {
