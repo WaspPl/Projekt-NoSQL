@@ -299,264 +299,311 @@ Expected Body:
 
 Expected Response: updates campaign specified by :id
 
-    [
+{
+    "message": "Owner 678a671df5d539e90e754ea9 successfully updated",
+    "data": {
+        "address": {
+            "country": "Poland",
+            "city": "Wroclaw",
+            "street": "testing"
+        },
+        "_id": "678a671df5d539e90e754ea9",
+        "name": "test123",
+        "email": "example@email.com",
+        "__v": 0
+    }
+}
+```
+
+### DELETE owner by ID
+TODO
+```js
+DELETE /owners/:id
+
+Expected Response: deletes the owner specified by :id along with their apartmets and their reviews
+
+Expected Response: 
+    {
+    "message": "Successfully deleted owner account 678a671df5d539e90e754ea9 and its apartments along with their reviews"
+    }
+```
+## Apartments Endpoints
+```js
+GET /apartments
+
+Expected Response: returns all apartments
+
+Expected Response: 
+{
+  "message": "Apartents list",
+  "lista": [
+    {
+      "_id": "678a6e3af5d539e90e754eab",
+      "name": "name of an apartment",
+      "address": {
+        "country": "Poland",
+        "city": "Wroclaw",
+        "street": "testing",
+        "lon": 12.345,
+        "lat": 3.1415
+      },
+      "desc": "A description for your apartment",
+      "price": {
+        "adult": 50,
+        "child": 30
+      },
+      "ownerId": "678a671df5d539e90e754ea9",
+      "__v": 0,
+      "reviews": [
         {
-            "updated": 1
+          "_id": "678a6f1af5d539e90e754eae",
+          "apartmentId": "678a6e3af5d539e90e754eab",
+          "reviewer": "alan",
+          "rating": 3,
+          "comment": "hey, this is a comment i created",
+          "dateEdited": "2025-01-17T14:54:18.848Z",
+          "dateCreated": "2025-01-17T14:54:18.848Z",
+          "__v": 0
         }
-    ]
-```
-
-### DELETE campaign by ID
-```js
-DELETE /api/campaigns/:id
-
-Expected Response: deletes campaign specified by :id
-
-Expected Response: 
-    {
-        "deleted": 1
+      ],
+      "ownerInfo": [
+        {
+          "_id": "678a671df5d539e90e754ea9",
+          "name": "test123",
+          "address": {
+            "country": "Poland",
+            "city": "Wroclaw",
+            "street": "testing"
+          },
+          "email": "example@email.com",
+          "__v": 0
+        }
+      ]
     }
-```
-### GET users
-```js
-GET /api/users
-
-Expected Response: returns array of all users
-
-Expected Response: 
-[
-    {
-        "id": 1,
-        "username": "nicopico",
-        "email": "chiku524@icloud.com",
-        "age": 25,
-        "password": "$2a$15$V.9IqAyj.cOEktdkjBd62OUH9J2ylz80KAerUB9pFcysi7uspAGYy"
-    },
-    {
-        "id": 2,
-        "username": "testing",
-        "email": "testing@gmail.com",
-        "age": 25,
-        "password": "$2a$15$olkyTbtgk25E6onHRkAWwe4t8RSNv2kkRhMwj3dNFSAzOKbFxydkW"
-    }
-]
+  ]
+}
 ```
 
-### GET User by user ID
+### GET Apartment by ID
 ```js
-GET /api/users/:id
+GET /apartments/:id
 
-Expected Response: returns stories created by user specified by :id
+Expected Response: returns apartment specified by :id
 
 Expected Response:
     {
-        "id": 2,
-        "username": "testing",
-        "email": "testing@gmail.com",
-        "age": 25,
-        "password": "$2a$15$e9k2JvlYn.FF3ivK/qiCMewx/3OhtHO8Dwf755Pu7QlwQvQ7ixnxu"
-    }   
+  "wiadomosc": "Details on the apartment 678a6e3af5d539e90e754eab",
+  "data": [
+    {
+      "_id": "678a6e3af5d539e90e754eab",
+      "name": "name of an apartment",
+      "address": {
+        "country": "Poland",
+        "city": "Wroclaw",
+        "street": "testing",
+        "lon": 12.345,
+        "lat": 3.1415
+      },
+      "desc": "A description for your apartment",
+      "price": {
+        "adult": 50,
+        "child": 30
+      },
+      "ownerId": "678a671df5d539e90e754ea9",
+      "__v": 0,
+      "reviews": [
+        {
+          "_id": "678a6f1af5d539e90e754eae",
+          "apartmentId": "678a6e3af5d539e90e754eab",
+          "reviewer": "alan",
+          "rating": 3,
+          "comment": "hey, this is a comment i created",
+          "dateEdited": "2025-01-17T14:54:18.848Z",
+          "dateCreated": "2025-01-17T14:54:18.848Z",
+          "__v": 0
+        }
+      ],
+      "ownerInfo": [
+        {
+          "_id": "678a671df5d539e90e754ea9",
+          "name": "test123",
+          "address": {
+            "country": "Poland",
+            "city": "Wroclaw",
+            "street": "testing"
+          },
+          "email": "example@email.com",
+          "__v": 0
+        }
+      ]
+    }
+  ]
+}
 ```
 
-### Update User info
+### PUT apartment by :id
 ```js
-PUT /api/users/:id/
+PUT /apartments/:id/
 
 Expected Body:
 
-    {
-        "age": 100
-    }
+        {
+            "desc":"this description got changed with a PUT request"
+        }
 
 Expected Response:  updates user info specified by id
 Expected Response
 
     {
-        "updated": 1
+    "message": "Apartment 678a6e3af5d539e90e754eab updated",
+    "data": {
+        "address": {
+            "country": "Poland",
+            "city": "Wroclaw",
+            "street": "testing",
+            "lon": 12.345,
+            "lat": 3.1415
+        },
+        "price": {
+            "adult": 50,
+            "child": 30
+        },
+        "_id": "678a6e3af5d539e90e754eab",
+        "name": "name of an apartment",
+        "desc": "this description got changed with a PUT request",
+        "ownerId": "678a671df5d539e90e754ea9",
+        "__v": 0
     }
-```
-
-### Delete
-```js
-DELETE /api/users/:id
-
-Expected Response: deletes user specified by :id
-
-Expected Response: 
-    {
-        "removed": 1
-    }
-```
-
-## Metrics Endpoints
-### Post Metrics to DS API
-```js
-POST /api/campaigns/:id/metrics
-
-Expected Body:
-
-    {
-        "item": "going to make cars fly"
-    }
-
-Expected Response:  Prediction of success in a campaign based off of description
-Expected Response:
-
-{
-    "description": {
-        "item": "why is my description now showing up"
-    },
-    "prediction": {
-        "success_failure": "0"
-    },
-    "campaign_id": "2"
 }
 ```
 
-<!-- ### Get All Stories by ID
+### Delete apartment
 ```js
-GET /api/stories/:id
+DELETE /apartments/:id
 
-Expected Response: Lists stories specified by :id
-
-Expected Response:
-    {
-        "id": 1,
-        "storyName": "Chinatown",
-        "photoLink": "https://i.ibb.co/DVN5Lnx/20200322-213304.jpg",
-        "user_id": 1,
-        "stories_id": 1
-    }
-```
-
-### PUT Story by ID
-```js
-PUT /api/stories/:id
-
-Expected Body:
-    {
-        "storyName": "Updated Story Name" //updated field
-    }
-
-Expected Response: updates story specified by :id
-
-Expected Response:
-"story": [
-	        {
-		        "id": 5,
-		        "storyName": "Updated Story Name",
-		        "storyCity": "test23",
-		        "storyCountry": "Thailand",
-		        "storyDate": "2020-08-28 03:12:34",
-		        "storyPhoto": "test photo",
-		        "storyDesc": "testDesc",
-		        "user_id": 1
-			    }
-        ]
-```
-
-### DELETE Story by ID
-```js
-DELETE /api/stories/:id
-
-Expected Response: deletes story specified by :id
+Expected Response: deletes an apartment specified by :id along with its reviews
 
 Expected Response: 
     {
-        "removed": 1
+    "message": "Successfully deleted apartment 678a6e3af5d539e90e754eab and its reviews"
     }
 ```
 
-## Photos Endpoints
-### GET ALL Photos
+## Reviews Endpoints
+### Get all reviews
 ```js
-GET /api/photos
+GET /reviews
 
-Expected Response: List of photos in database
-
+Expected Response:  Lists all reviews posted
 Expected Response:
-[
+
+{
+  "message": "A list of all opinions",
+  "data": [
     {
-        "id": 1,
-        "photoLink": "https://i.ibb.co/DVN5Lnx/20200322-213304.jpg",
-        "photoDesc": "Out for dinner",
-        "photoDate": "2020-08-28T02:49:30.529Z",
-        "stories_id": 1
+      "_id": "6789461954569f21e1806c31",
+      "apartmentId": "678945fd54569f21e1806c2c",
+      "reviewer": "Anonymous reviewer",
+      "rating": 4,
+      "comment": "this review just got edited",
+      "dateEdited": "2025-01-16T18:44:44.577Z",
+      "dateCreated": "2025-01-16T17:47:05.808Z",
+      "__v": 0
     },
     {
-        "id": 3,
-        "photoLink": "https://i.ibb.co/RTZNzfX/20200821-093310.jpg",
-        "photoDesc": "Enjoy a moment of relaxation in Pattaya",
-        "photoDate": "2020-08-28T02:49:30.529Z",
-        "stories_id": 3
+      "_id": "678a6f1af5d539e90e754eae",
+      "apartmentId": "678a6e3af5d539e90e754eab",
+      "reviewer": "alan",
+      "rating": 3,
+      "comment": "hey, this is a comment i created",
+      "dateEdited": "2025-01-17T14:54:18.848Z",
+      "dateCreated": "2025-01-17T14:54:18.848Z",
+      "__v": 0
     }
-]
+  ]
+}
 ```
 
-### GET Photos By ID
+ ### Get review info by id
 ```js
-GET /api/photos/:id
+GET /review/:id
 
-### Expected Response: Photo that matches Users ID
-
-Expected Response
-    {
-        "id": 1,
-        "photoLink": "https://i.ibb.co/DVN5Lnx/20200322-213304.jpg",
-        "photoDesc": "Out for dinner",
-        "photoDate": "2020-08-28T02:49:30.529Z",
-        "stories_id": 1
-    }
-```
-
-### POST new photo
-```js
-POST /api/photos
-
-Expected Body:
-
-    {
-        "photoLink": "test",
-        "photoDesc": "test",
-        "stories_id": 1
-    }
-
-
-Expected Response:  creates & returns new photo
-Expected Response
-
-[
-    {
-        "id": 4,
-        "photoLink": "test",
-        "photoDesc": "test",
-        "photoDate": "2020-08-28T05:30:33.313Z",
-        "stories_id": 1
-    }
-]
-```
-
-### PUT Photo by ID
-```js
-PUT /api/photos/:id
-
-Expected Body:
-    {
-        "photoLink": "updates example" //updated field
-    }
-
-Expected Response: updates photo specified by :id
+Expected Response: Lists info about a review and it's apartment by :id of the review
 
 Expected Response:
-"story": [
-	        {
-		        "id": 4,
-                "photoLink": "updates example",
-                "photoDesc": "test",
-                "photoDate": "2020-08-28T05:30:33.313Z",
-                "stories_id": 1
-            }
-        ]
+    {
+  "message": "Details of the review with ID 678a6f1af5d539e90e754eae",
+  "data": [
+    {
+      "_id": "678a6f1af5d539e90e754eae",
+      "apartmentId": "678a6e3af5d539e90e754eab",
+      "reviewer": "alan",
+      "rating": 3,
+      "comment": "hey, this is a comment i created",
+      "dateEdited": "2025-01-17T14:54:18.848Z",
+      "dateCreated": "2025-01-17T14:54:18.848Z",
+      "__v": 0,
+      "aboutApartment": [
+        {
+          "_id": "678a6e3af5d539e90e754eab",
+          "name": "name of an apartment",
+          "address": {
+            "country": "Poland",
+            "city": "Wroclaw",
+            "street": "testing",
+            "lon": 12.345,
+            "lat": 3.1415
+          },
+          "desc": "this description got changed with a PUT request",
+          "price": {
+            "adult": 50,
+            "child": 30
+          },
+          "ownerId": "678a671df5d539e90e754ea9",
+          "__v": 0
+        }
+      ]
+    }
+  ]
+}
 ```
 
- -->
+### PUT review by id
+```js
+PUT /reviews/:id
+
+Expected Body:
+    {
+    "comment":"edited with a put request"
+    }
+
+Expected Response: updates review specified by :id
+
+Expected Response:
+{
+    "message": "Review 678a6f1af5d539e90e754eae successfully updated",
+    "data": {
+        "_id": "678a6f1af5d539e90e754eae",
+        "apartmentId": "678a6e3af5d539e90e754eab",
+        "reviewer": "alan",
+        "rating": 3,
+        "comment": "edited with a put request",
+        "dateEdited": "2025-01-17T16:00:14.007Z",
+        "dateCreated": "2025-01-17T14:54:18.848Z",
+        "__v": 0
+    }
+}
+```
+
+### DELETE review by ID
+```js
+DELETE /reviews/:id
+
+Expected Response: deletes review specified by :id
+
+Expected Response: 
+    {
+    "message": "Successfully deleted review 678a6f1af5d539e90e754eae"
+    }
+```
+
