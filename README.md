@@ -2,20 +2,21 @@
 - **[Getting Started](#getting-started)**<br>
 - **[Installing](#installing)**<br>
 - **[Overview](#overview)**<br>
-- **[Back-end](#back-end)**<br>
 - **[API Endpoints](#api-endpoints)**<br>
-- **[Register Endpoint](##register-endpoint)**<br>
-- **[Login Endpoint](##login-endpoint)**<br>
-- **[Logout Endpoint](##logout-endpoint)**<br>
-- **[Campaign Endpoints](##campaign-endpoint)**<br>
-- **[Metrics Endpoints](##metrics-endpoints)**<br>
+- **[POST Endpoint](##post-endpoints)**<br>
+- **[Owners Endpoint](##owners-endpoints)**<br>
+- **[Apartments Endpoint](##apartments-endpoint)**<br>
+- **[Eeviews Endpoints](##reviews-endpoint)**<br>
+
 
 # backend-api
-Back-end RESTful API
+Back-end RESTful API for use with Node.js
+Made for easy management of a database contining "Owners", "Apartments" and "Reviews" collections.
+Uses MongoDB.
 
 # Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+This API is made for a university project and is not made to be used commertially. That being said, if you do want to use it anyway check Installing for instructions on how to set it up.
 
 # Installing
 
@@ -33,10 +34,6 @@ DB_NAME="Example"
 ```
 node server.js
 ```
-
-# Back-end 
-
-API's | RDBMS and Data Persistence | Authentication | Form Testing
 
 # API Endpoints
 Use Base URL: https://kickstarter-success-bw.herokuapp.com/
