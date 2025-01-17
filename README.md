@@ -1,12 +1,11 @@
 ## Table of Contents
 - **[Getting Started](#getting-started)**<br>
 - **[Installing](#installing)**<br>
-- **[Overview](#overview)**<br>
 - **[API Endpoints](#api-endpoints)**<br>
-- **[POST Endpoint](##post-endpoints)**<br>
-- **[Owners Endpoint](##owners-endpoints)**<br>
-- **[Apartments Endpoint](##apartments-endpoint)**<br>
-- **[Eeviews Endpoints](##reviews-endpoint)**<br>
+- **[POST Endpoint](#post-endpoints)**<br>
+- **[Owners Endpoint](#owners-endpoints)**<br>
+- **[Apartments Endpoint](#apartments-endpoints)**<br>
+- **[Eeviews Endpoints](#reviews-endpoints)**<br>
 
 
 # backend-api
