@@ -22,6 +22,7 @@ These instructions will get you a copy of the project up and running on your loc
 1. Clone the respository   
 2. In the main folder create an  ".env" file
 The file should contain your credentials needed to access a mongodb cluster
+
 Structure it like this (replace "Example" with correct values):
 ```
 DB_USER="Example"
