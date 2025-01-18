@@ -9,17 +9,18 @@
 
 
 # backend-api
-Back-end RESTful API for use with Node.js
+Back-end RESTful API for use with Node.js</br>
 Made for easy management of a database contining "Owners", "Apartments" and "Reviews" collections.</br>
 Uses MongoDB.
 
 # Getting Started
 
-This API is made for a university project and is not made to be used commercially. That being said, if you do want to use it anyway, check the Installing section.
+This API is made for a university project and is not made to be used commercially.</br>
+That being said, if you do want to use it anyway, check the Installing section.
 # Installing
 
 1. Clone the repository   
-2. In the main folder create a .env file.
+2. In the main folder create a .env file.</br>
 The file should contain your credentials needed to access a mongodb cluster.</br>
 Structure it like this. (replace "Example" with correct values):
 ```
