@@ -10,19 +10,18 @@
 
 # backend-api
 Back-end RESTful API for use with Node.js
-Made for easy management of a database contining "Owners", "Apartments" and "Reviews" collections.
+Made for easy management of a database contining "Owners", "Apartments" and "Reviews" collections.</br>
 Uses MongoDB.
 
 # Getting Started
 
-This API is made for a university project and is not made to be used commertially. That being said, if you do want to use it anyway check Installing for instructions on how to set it up.
-
+This API is made for a university project and is not made to be used commercially. That being said, if you do want to use it anyway, check the Installing section.
 # Installing
 
-1. Clone the respository   
-2. In the main folder create an  ".env" file
-The file should contain your credentials needed to access a mongodb cluster.
-Structure it like this (replace "Example" with correct values):
+1. Clone the repository   
+2. In the main folder create a .env file.
+The file should contain your credentials needed to access a mongodb cluster.</br>
+Structure it like this. (replace "Example" with correct values):
 ```
 DB_USER="Example"
 DB_PASSWORD="Example"
@@ -34,17 +33,14 @@ DB_NAME="Example"
 node server.js
 ```
 
-# API Endpoints
-Use Base URL: https://kickstarter-success-bw.herokuapp.com/
-
 Owners
 | Method | Route                  | Description                                      |
 |--------|------------------------|--------------------------------------------------|
 | POST   | /owners                | registers new users as owners                    |
 | GET    | /owners                | lists all owners and their apartments            |
-| GET    | /owners:id             | list all info about the owner with :id           |
+| GET    | /owners:id             | lists all information about the owner by :id.    |
 | PUT    | /owners:id             | updates info about the owner specified by :id    |
-| DELETE | /owners:id             | deletes the owner, their apartments and reviews  |
+| DELETE | /owners:id             | deletes the owner, their apartments and reviews.  |
 
 
 Apartments
@@ -54,7 +50,7 @@ Apartments
 | GET    | /apartments            | lists all apartments, their owners and reviews   |
 | GET    | /apartments:id         | list all info about the apartment with :id       |
 | PUT    | /apartments:id         | updates info about the apartment specified by :id|
-| DELETE | /apartments:id         | deletes the apartment and its reviews            |
+| DELETE | /apartments:id         | deletes the apartment, including its reviews.    |
 
 
 Apartments
@@ -64,7 +60,7 @@ Apartments
 | GET    | /reviews               | lists all reviews                                |
 | GET    | /reviews:id            | list all info about the review with :id          |
 | PUT    | /reviews:id            | updates info about the review specified by :id   |
-| DELETE | /reviews:id            | deletes the revew specified with :id             |
+| DELETE | /reviews:id            | deletes the review specified with :id            |
 
 
 ## Post endpoints
@@ -78,10 +74,10 @@ Expected Body
   name: "name", //string ,required
   address: {
     country: "Poland", //string
-    city: "Wroclaw",//string
+    city: "Wroclaw", //string
     street: "testing"
   },
-  email: "example@email.com"//string, required
+  email: "example@email.com" //string, required
 }
 ```
 
@@ -114,8 +110,8 @@ Expected Body
       country: "Poland", //string
       city: "Wroclaw", //string
       street: "testing", //string
-      lon: 12.345, // Number
-      lat: 3.1415 // Number
+      lon: 12.345, //Number
+      lat: 3.1415 //Number
     },
     desc: "A description for your apartment", //string
     price: {
@@ -158,9 +154,9 @@ Expected Body
 ```js
 {
  "apartmentId": "678a6e3af5d539e90e754eab", //ObjectId, required
-  "reviewer": "alan", // string, if no name provided it'll be set to "Anonymous Reviewer",
-  "rating": 3, // Number, min 1, max 5
-  "comment": "hey, this is a comment i created" // string
+  "reviewer": "alan", //string, if no name provided it'll be set to "Anonymous Reviewer",
+  "rating": 3, //Number, min 1, max 5
+  "comment": "hey, this is a comment i created" //string
 }
   
 ```
@@ -331,7 +327,7 @@ Expected Response: returns all apartments
 
 Expected Response: 
 {
-  "message": "Apartents list",
+  "message": "Apartments list",
   "lista": [
     {
       "_id": "678a6e3af5d539e90e754eab",
@@ -384,7 +380,7 @@ Expected Response:
 ```js
 GET /apartments/:id
 
-Expected Response: returns apartment specified by :id
+Expected Response: returns the apartment specified by :id.
 
 Expected Response:
     {
@@ -439,7 +435,7 @@ Expected Response:
 
 ### PUT apartment by :id
 ```js
-PUT /apartments/:id/
+PUT /apartments/:id
 
 Expected Body:
 
